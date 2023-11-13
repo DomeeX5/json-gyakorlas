@@ -5,6 +5,7 @@ const abcGomb = document.getElementById('abc');
 const legdragabbGomb = document.getElementById('legdragabb');
 const keresesGomb = document.getElementById('kereses');
 const keresInput = document.getElementById('keres');
+const ajanlatGomb = document.getElementById('ajanlat');
 const lista = document.getElementById('list');
 
 function adatMegjelenites(termekLista: Termek[]){
@@ -48,8 +49,17 @@ function kereses(){
     let lekeres = await fetch('products.json');
     let tartalom = await lekeres.json() as Termekek;
     let keresett = (keresInput as HTMLInputElement).value;
-    let asdf = tartalom.products.filter(a => a.description.toLocaleLowerCase().includes(keresett.toLocaleLowerCase()));
-    adatMegjelenites(asdf);
+    let kereses = tartalom.products.filter(a => a.description.toLocaleLowerCase().includes(keresett.toLocaleLowerCase()));
+    adatMegjelenites(kereses);
+  })
+}
+
+function ajanlat(){
+  ajanlatGomb!.addEventListener('click', async () => {
+    let lekeres = await fetch('products.json');
+    let tartalom = await lekeres.json() as Termekek;
+    let ajanlat = tartalom.products.filter(a => a.price < 100).sort((a, b) => b.price - a.price);
+    adatMegjelenites(ajanlat);
   })
 }
 
@@ -60,4 +70,5 @@ document.addEventListener('DOMContentLoaded', () => {
   abc();
   legdragabb();
   kereses();
+  ajanlat();
 })
